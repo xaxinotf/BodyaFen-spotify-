@@ -18,7 +18,6 @@ namespace BodyaFen_spotify_.Controllers
         private readonly BodyaFenDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly BlobServiceClient _client;
-        private readonly BlobServiceClient _client;
 
         public ArtistsController(BodyaFenDbContext context, IOptions<AzureConfig> azureConfig, IConfiguration configuration)
         {
