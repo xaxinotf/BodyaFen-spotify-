@@ -1,15 +1,15 @@
-﻿namespace BodyaFen_spotify_.Models
-{
-    public class Artist
-    {
+﻿using Microsoft.AspNetCore.Identity;
 
-        public Guid Id { get; set; }
+namespace BodyaFen_spotify_.Models
+{
+    public class Artist : IdentityUser
+    {
 
         public string Name { get; set; }
 
         public Photo? Photo { get; set; }
 
-        public List<Song>? Songs { get; set; }   
+        public List<Song>? Songs { get; set; }
 
     }
 }

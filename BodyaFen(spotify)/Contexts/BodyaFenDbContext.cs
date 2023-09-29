@@ -1,10 +1,11 @@
 ﻿using BodyaFen_spotify_.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BodyaFen_spotify_.Contexts
 {
-    public class BodyaFenDbContext : DbContext
+    public class BodyaFenDbContext : IdentityDbContext<Artist>
     {
         public BodyaFenDbContext(DbContextOptions<BodyaFenDbContext> options)
         : base(options)
@@ -18,5 +19,4 @@ namespace BodyaFen_spotify_.Contexts
         public DbSet<Song> Songs { get; set; }
 
     }
-
 }
