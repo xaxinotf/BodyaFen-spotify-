@@ -5,7 +5,7 @@ using OpenQA.Selenium.Edge;
 namespace Etap_9
 {
     [TestClass]
-    public class UnitTest1
+    public class EtoE_9_1_test
     {
         private IWebDriver _driver;
 
