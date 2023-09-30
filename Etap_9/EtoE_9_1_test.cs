@@ -16,7 +16,7 @@ namespace Etap_9
         }
 
         [TestMethod]
-        public void UserCanLogin()
+        public void GenreCreate()
         {
             _driver.Navigate().GoToUrl("https://localhost:44335/Genres/Create");
 
@@ -34,7 +34,7 @@ namespace Etap_9
         }
 
         [TestCleanup]
-        public void TearDown()
+        public void CleanDriver()
         {
             _driver.Quit();
         }
