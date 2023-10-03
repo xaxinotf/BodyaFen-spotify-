@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BodyaFen_spotify_.Migrations
 {
     /// <inheritdoc />
-    public partial class niggg01 : Migration
+    public partial class niiiiiiiuuu : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

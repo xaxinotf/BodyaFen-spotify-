@@ -26,10 +26,10 @@ namespace Etap_9
             nameInput.SendKeys("test");
             submitInput.Click();
 
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
-            var navbar = _driver.FindElement(By.Id("linkTest"));
-            Assert.IsNotNull(navbar);
+            var butoon = _driver.FindElement(By.Id("linkTest"));
+            Assert.IsNotNull(butoon);
 
         }
 
@@ -40,3 +40,5 @@ namespace Etap_9
         }
     }
 }
+
+//QwArty_1

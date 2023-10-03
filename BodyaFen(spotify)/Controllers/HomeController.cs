@@ -1,21 +1,28 @@
-﻿using BodyaFen_spotify_.Models;
+﻿using BodyaFen_spotify_.Contexts;
+using BodyaFen_spotify_.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace BodyaFen_spotify_.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly BodyaFenDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, BodyaFenDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var artistId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var artist = await _context.Artists.Include(a => a.Photo).FirstOrDefaultAsync(a=>a.Id == artistId);
+            return View(artist);
         }
 
         public IActionResult Privacy()

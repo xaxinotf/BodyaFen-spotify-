@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BodyaFen_spotify_.Migrations
 {
     [DbContext(typeof(BodyaFenDbContext))]
-    [Migration("20230929093816_niggg01")]
-    partial class niggg01
+    [Migration("20231002193300_niiiiiiiuuu")]
+    partial class niiiiiiiuuu
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

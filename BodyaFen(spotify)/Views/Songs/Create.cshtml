@@ -17,6 +17,11 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            <div class="mt-2 Center">
+                <select asp-for="GenreId" asp-items="ViewBag.Genres" style="width:50%" class="form-control" autofocus>
+                    <option value="" disabled selected>Select a genre</option>
+                </select><br>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

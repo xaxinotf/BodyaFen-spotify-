@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BodyaFen_spotify_.Contexts;
 using BodyaFen_spotify_.Models;
+using System.Security.Claims;
 
 namespace BodyaFen_spotify_.Controllers
 {
@@ -22,9 +23,9 @@ namespace BodyaFen_spotify_.Controllers
         // GET: Songs
         public async Task<IActionResult> Index()
         {
-              return _context.Songs != null ? 
-                          View(await _context.Songs.ToListAsync()) :
-                          Problem("Entity set 'BodyaFenDbContext.Songs'  is null.");
+            return _context.Songs != null ?
+                        View(await _context.Songs.ToListAsync()) :
+                        Problem("Entity set 'BodyaFenDbContext.Songs'  is null.");
         }
 
         // GET: Songs/Details/5
@@ -35,7 +36,7 @@ namespace BodyaFen_spotify_.Controllers
                 return NotFound();
             }
 
-            var song = await _context.Songs
+            var song = await _context.Songs.Include(s=>s.Genre)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (song == null)
             {
@@ -46,8 +47,10 @@ namespace BodyaFen_spotify_.Controllers
         }
 
         // GET: Songs/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var genres = await _context.Genres.ToListAsync();
+            ViewData["Genres"] = genres.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
             return View();
         }
 
@@ -56,15 +59,14 @@ namespace BodyaFen_spotify_.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Song song)
+        public async Task<IActionResult> Create(Song song)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(song);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(song);
+            var artistId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var artist = await _context.Artists.FindAsync(artistId);
+            song.Artist = artist;
+            _context.Add(song);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Songs/Edit/5
@@ -150,14 +152,14 @@ namespace BodyaFen_spotify_.Controllers
             {
                 _context.Songs.Remove(song);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SongExists(int id)
         {
-          return (_context.Songs?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Songs?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
