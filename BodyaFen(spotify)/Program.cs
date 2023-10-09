@@ -7,7 +7,17 @@ using BodyaFen_spotify_.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 // Add services to the container.
+builder.Services.AddAuthentication()
+.AddCookie()
+.AddGoogle(gOptions =>
+{
+    gOptions.ClientId = builder.Configuration["GoogleCreds:ClientIdd"];
+    gOptions.ClientSecret = builder.Configuration["GoogleCreds:ClientSecrett"];
+});
+
 builder.Services.AddControllersWithViews();
 var config = builder.Configuration.GetSection("Azure");
 builder.Services.Configure<AzureConfig>(config);
@@ -32,6 +42,7 @@ app.UseStaticFiles();
 app.MapRazorPages();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<BodyaFen_spotify_.Models.Song>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,6 +11,12 @@
 
 <p>
     <a asp-action="Create">Create New</a>
+
+
+    <form asp-action="SearchForSongss">
+        <input id="songSearch" name="songName" placeholder="Enter song name" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
 </p>
 <table class="table">
     <thead>
@@ -33,3 +42,24 @@
 }
     </tbody>
 </table>
+<script>
+    $(document).ready(function () {
+        $("#songSearch").autocomplete({
+            minLength: 3,
+            delay: 300,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Songs/GetSongsByNames",
+                    type: "GET",
+                    dataType: "json",
+                    data: { term: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.name, value: item.name };
+                        }))
+                    }
+                });
+            }
+        });
+    });
+</script>

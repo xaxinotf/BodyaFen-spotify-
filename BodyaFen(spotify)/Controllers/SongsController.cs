@@ -53,6 +53,31 @@ namespace BodyaFen_spotify_.Controllers
             ViewData["Genres"] = genres.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> SearchForSongss(string songName)
+        {
+            if (songName == null)
+            {
+                return RedirectToAction("Index", "Songs");
+            }
+
+            var song = await _context.Songs.FirstOrDefaultAsync( S=>S.Name==songName );
+            var list = new List<Song>{song};
+            if (song is null)
+            {
+                return RedirectToAction("Index", "Songs");
+            }
+            
+            return View("Index", list);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetSongsByNames(string term)
+        {
+            var song = await _context.Songs
+            .Where(p => p.Name.Contains(term))
+            .ToListAsync();
+            return Json(song.Select(p => new { name = p.Name }));
+        }
 
         // POST: Songs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.

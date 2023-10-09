@@ -5,10 +5,10 @@
 
 <div class="text-center">
     <h1 class="display-4">Wassup</h1>
-    @if (User.Identity.IsAuthenticated)
+    @* @if (User.Identity.IsAuthenticated)
     {
         <img src="@Model.Photo.Url" style="max-width:30%;max-height:30%" alt="Property Image" />
-    }
+    } *@
     <a class="btn btn-primary" asp-controller="Genres" asp-action="Index">Genre</a>
     <a class="btn btn-primary" asp-controller="Songs" asp-action="Index">Songs</a>
     <p>Rick Astley <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">how to get a 1 bitcoin</a>))</p>

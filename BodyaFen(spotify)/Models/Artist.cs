@@ -5,7 +5,7 @@ namespace BodyaFen_spotify_.Models
     public class Artist : IdentityUser
     {
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public Photo? Photo { get; set; }
 
