@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BodyaFen_spotify_.Models.Song>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+
+<!-- Include SignalR JavaScript client -->
+<script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
 
 @{
     ViewData["Title"] = "Index";
@@ -11,8 +11,6 @@
 
 <p>
     <a asp-action="Create">Create New</a>
-
-
     <form asp-action="SearchForSongss">
         <input id="songSearch" name="songName" placeholder="Enter song name" />
         <button type="submit" class="btn btn-primary">Search</button>
@@ -28,21 +26,26 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
 <script>
+    // Existing code for song search
     $(document).ready(function () {
         $("#songSearch").autocomplete({
             minLength: 3,
@@ -61,5 +64,16 @@
                 });
             }
         });
+    });
+
+    // SignalR code
+    var connection = new signalR.HubConnectionBuilder().withUrl("/songshub").build();
+
+    connection.on("RefreshSongs", function () {
+        location.reload();
+    });
+
+    connection.start().catch(function (err) {
+        return console.error(err.toString());
     });
 </script>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BodyaFen_spotify_.Migrations
 {
     [DbContext(typeof(BodyaFenDbContext))]
-    [Migration("20231002193300_niiiiiiiuuu")]
-    partial class niiiiiiiuuu
+    [Migration("20231015114729_nigg1")]
+    partial class nigg1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,6 @@ namespace BodyaFen_spotify_.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")

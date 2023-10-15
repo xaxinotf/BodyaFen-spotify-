@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using BodyaFen_spotify_.Contexts;
 using BodyaFen_spotify_.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.SignalR;
+using BodyaFen_spotify_.Dopomoga;
 
 namespace BodyaFen_spotify_.Controllers
 {
     public class SongsController : Controller
     {
         private readonly BodyaFenDbContext _context;
+        private readonly IHubContext<SongsHub> _hubContext;
 
-        public SongsController(BodyaFenDbContext context)
+        public SongsController(BodyaFenDbContext context, IHubContext<SongsHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         // GET: Songs
@@ -91,6 +95,8 @@ namespace BodyaFen_spotify_.Controllers
             song.Artist = artist;
             _context.Add(song);
             await _context.SaveChangesAsync();
+            await _hubContext.Clients.All.SendAsync("RefreshSongs");
+
             return RedirectToAction(nameof(Index));
         }
 
