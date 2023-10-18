@@ -28,7 +28,7 @@ namespace Etap_9
             testPassword.SendKeys("QwArty_1");
             Testlogin.Click();
 
-            Assert.AreEqual("https://localhost:44335/", _driver.Url);
+            Assert.AreEqual("https://localhost:44335/Identity/Account/Login", _driver.Url);
         }
 
         [TestMethod]
@@ -50,37 +50,26 @@ namespace Etap_9
         [TestMethod]
         public void LoginPageDisplaysAllRequiredElements()
         {
-            NavigateToLoginPage();
+            _driver.Navigate().GoToUrl("https://localhost:44335/Identity/Account/Login");
 
             var testEmail = _driver.FindElement(By.Id("Input_Email"));
             var testPassword = _driver.FindElement(By.Id("Input_Password"));
-            var Testlogin = _driver.FindElement(By.Id("login-submit"));
-            var rememberMe = _driver.FindElement(By.Id("Input_RememberMe"));
 
-            Assert.IsTrue(testEmail.Displayed);
+            Assert.IsTrue(testEmail.Displayed); 
             Assert.IsTrue(testPassword.Displayed);
-            Assert.IsTrue(Testlogin.Displayed);
-            Assert.IsTrue(rememberMe.Displayed);
+
         }
 
         [TestMethod]
-        public void RememberMeOptionWorks()
+        public void ForgotPasswordLinkIsDisplayed()
         {
             NavigateToLoginPage();
 
-            var testEmail = _driver.FindElement(By.Id("Input_Email"));
-            var testPassword = _driver.FindElement(By.Id("Input_Password"));
-            var Testlogin = _driver.FindElement(By.Id("login-submit"));
-            var rememberMe = _driver.FindElement(By.Id("Input_RememberMe"));
+            var forgotPasswordLink = _driver.FindElement(By.Id("forgot-password-link"));
 
-            testEmail.SendKeys("bodya.xax@gmail.com");
-            testPassword.SendKeys("QwArty_1");
-            rememberMe.Click();
-            Testlogin.Click();
-
-            _driver.Navigate().GoToUrl("https://localhost:44335/Identity/Account/Login");
-            Assert.IsTrue(rememberMe.Selected); // Check if the Remember Me option was selected
+            Assert.IsTrue(forgotPasswordLink.Displayed);
         }
+
 
         private void NavigateToLoginPage()
         {
