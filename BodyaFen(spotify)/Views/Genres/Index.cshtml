@@ -36,40 +36,49 @@
 </table>
 
 <div class="container">
-    <div id="chart1"></div>
+    <canvas id="chart1"></canvas>
 </div>
 
-@section scripts {
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Genres Pie Chart</title>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script>
-            google.charts.load('current', {
-                packages: ['corechart']
-            });
-            google.charts.setOnLoadCallback(drawChart);
 
-            function drawChart() {
-                fetch('api/Chart/JsonData')
-                    .then(response => response.json())
-                    .then(data => {
-                        var dataToDisplay = google.visualization.arrayToDataTable(data);
-                        var options = {
-                            title: 'Number of Songs in Each Genre',
-                            sliceVisibilityThreshold: 0  
-                        };
-                        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-                        chart.draw(dataToDisplay, options);
-                    });
+@section Scripts {
+    <!-- Include the Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', async function () {
+            try {
+                const response = await fetch('/api/Chart/JsonData');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+                console.log(data);
+                const labels = data.slice(1).map(item => item.genreType);
+                const values = data.slice(1).map(item => item.numberOfSongs);
+                console.log(labels, values);
+                const ctx = document.getElementById('chart1').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Number of Songs',
+                            data: values,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
             }
-        </script>
-    </head>
-
-    <body>
-        <h2>Genres Pie Chart</h2>
-        <div id="piechart" style="width: 900px; height: 500px;"></div>
-    </body>
+        });
+    </script>
 }
-

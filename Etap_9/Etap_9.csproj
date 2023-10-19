@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Chart.js" Version="3.7.1" />
     <PackageReference Include="jQuery" Version="3.7.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="7.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.11" />
