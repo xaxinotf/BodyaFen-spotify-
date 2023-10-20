@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<BodyaFen_spotify_.Models.Song>
 
-<!-- Include SignalR JavaScript client -->
 <script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
 
 @{
@@ -45,7 +44,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
 <script>
-    // Existing code for song search
     $(document).ready(function () {
         $("#songSearch").autocomplete({
             minLength: 3,
@@ -66,7 +64,7 @@
         });
     });
 
-    // SignalR code
+    
     var connection = new signalR.HubConnectionBuilder().withUrl("/songshub").build();
 
     connection.on("RefreshSongs", function () {
